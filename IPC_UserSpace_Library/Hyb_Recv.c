@@ -30,7 +30,7 @@ int Hyb_Recv(int dest,char *data, int count)
 		
 }
 
-
+/*
 int main(){
 	
 	char recv_buffer[256];
@@ -38,4 +38,5 @@ int main(){
 	printf("From the main the recv buffer is %s\n",recv_buffer);
 	return 0;
 }
+*/
 
