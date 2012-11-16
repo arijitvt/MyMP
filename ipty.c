@@ -33,30 +33,26 @@ const char tokenizer = '%';
 struct tty_driver *master_tty_driver;
 
 int totalDevices = NO_OF_DEV;
-int open_device[NO_OF_DEV];
-int sync_sent = 0;
 
 static int tty_dev_open(struct tty_struct *tty, struct file *flip) {
-	open_device[tty->index] = 1;
 	return SUCCESS;
 }
 
 static void tty_dev_close(struct tty_struct *tty, struct file *flip) {
-	open_device[tty->index] = 0;
 }
 
 
 static int tty_dev_write(struct tty_struct * tty, char *buf,
 		int count) {
 	if(count > 0 ){
-		tty_lock();
+	//	tty_lock();
 		strcat(buf,"\n");
-		int total = tty_insert_flip_string(tty,buf,count+2);
+		int total = tty_insert_flip_string(tty,buf,count+1);
 		if(total){
 			tty_flip_buffer_push(tty);
 			tty_wakeup(tty);
 		}
-		tty_unlock();
+	//	tty_unlock();
 	}
 	return count;
 }
@@ -84,8 +80,8 @@ static int tty_dev_ioctl(struct tty_struct *tty, struct file *flip,
 
 		default:			
 			printk(KERN_ALERT "Default case with tty index %d\n",tty->index);
-			sync_sent = 1;
-			open_device[tty->index] = 1;
+			//sync_sent = 1;
+			//open_device[tty->index] = 1;
 	}
 	return 0;
 }
@@ -118,7 +114,7 @@ if (!master_tty_driver) {
 	return FAILURE;
 }
 
-memset(open_device,0,NO_OF_DEV*sizeof(int));
+//memset(open_device,0,NO_OF_DEV*sizeof(int));
 
 master_tty_driver->owner = THIS_MODULE;
 master_tty_driver->driver_name = tty_driver_name;

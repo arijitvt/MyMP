@@ -26,10 +26,8 @@ __attribute__((section("__versions"))) = {
 	{ 0x4f80e6be, "alloc_tty_driver" },
 	{ 0x1882f511, "tty_wakeup" },
 	{ 0x350a786c, "tty_flip_buffer_push" },
-	{ 0x8384a2c5, "tty_unlock" },
 	{ 0x52da18c1, "tty_insert_flip_string_fixed_flag" },
 	{ 0x25ec1b28, "strlen" },
-	{ 0xed302f0f, "tty_lock" },
 	{ 0x27e1a049, "printk" },
 	{ 0xb4390f9a, "mcount" },
 };
@@ -40,4 +38,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "BC8921CD301828E4CC95DD2");
+MODULE_INFO(srcversion, "36AB73B79E7BF03420BC7C2");
