@@ -51,8 +51,7 @@ static int tty_dev_write(struct tty_struct * tty, char *buf,
 	if(count > 0 ){
 		tty_lock();
 		strcat(buf,"\n");
-		int total = tty_insert_flip_string(tty,buf,count+1);
-		printk(KERN_ALERT "Count is %d and total is %d\n",count,total);
+		int total = tty_insert_flip_string(tty,buf,count+2);
 		if(total){
 			tty_flip_buffer_push(tty);
 			tty_wakeup(tty);
