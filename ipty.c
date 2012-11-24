@@ -66,17 +66,13 @@ static int tty_dev_ioctl(struct tty_struct *tty, struct file *flip,
 		unsigned int cmd, unsigned long param) {
 
 	int retval = -1;
-
+	printk("Command number %d\n",cmd);
 	switch (cmd) {
-
-		case IOCTL_READ_MSG:
-			printk(KERN_ALERT "Read message command is read\n");
+	
+		case IOCTL_BROADCAST_MSG :
+			printk("Broadcasting is called\n");
 			break;
 
-		case IOCTL_SEND_MSG:
-			printk(KERN_ALERT "Sending the message\n");
-			retval = sync_tty_dev_write(tty);
-			break;
 
 		default:			
 			printk(KERN_ALERT "Default case with tty index %d\n",tty->index);
