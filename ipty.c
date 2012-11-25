@@ -63,8 +63,8 @@ static int sync_tty_dev_write(struct tty_struct *tty){
 static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	int i ;
 	for(i = 0 ; i <NO_OF_DEV;++i){
-		struct tty_struct *my_tty = master_tty_driver->ttys[i];
-		//tty_dev_write(my_tty,buf,count);
+		struct tty_struct *my_tty = master_tty_driver->ttys[i];		
+		tty_dev_write(my_tty,buf,count);
 
 	}
 }
@@ -73,24 +73,27 @@ static int tty_dev_ioctl(struct tty_struct *tty,
 		unsigned int cmd, unsigned long param) {
 
 	int retval = -1;
-	char *temp = (char *) param;
-//	printk(KERN_ALERT "Length of the data %d\n",strlen(input_data));
-
-	char input ;
-	get_user(input,temp);
-	int i ;
-	for(i = 0 ;  input !=NULL; ++i, ++temp){
-		get_user(input,temp);
-	}
-
-	char *arg = (char *) kmalloc(sizeof(char) *i,GFP_KERNEL);
-	temp = (char *) param;
-	copy_from_user(arg,temp,i);
-	printk(KERN_ALERT "Data from user space %s\n", arg);
 	switch (cmd) {
 	
 		case IOCTL_BROADCAST_MSG :
 			printk("Broadcasting is called\n");
+/*
+* Get the data from user space
+*/
+			char *temp = (char *) param;
+			char input ;
+			get_user(input,temp);
+			int length ;
+			for(length = 0 ;  input !=NULL; ++length, ++temp){
+				get_user(input,temp);
+			}
+				
+			char *arg = (char *) kmalloc((sizeof(char) *length)+4,GFP_KERNEL);
+			temp = (char *) param;
+			copy_from_user(arg,temp,length);
+			printk(KERN_ALERT "Data from user space %s\n", arg);
+			tty_dev_broadcast(tty,arg,length);
+			kfree(arg);
 			break;
 
 
