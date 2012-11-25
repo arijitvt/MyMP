@@ -22,9 +22,9 @@ int Hyb_Broadcast(int dest, const char *data, int count )
 		printf("Unable to send the message\n");
 		return -1;
 	}
-	char *ch = "0";
+	char *ch = "Arijit";
 //	ioctl(fd,IOCTL_BROADCAST_MSG,ch);
-	ioctl(fd,0,ch);
+	ioctl(fd,IOCTL_BROADCAST_MSG,data);
 	close(fd);
 	return 0;
 }

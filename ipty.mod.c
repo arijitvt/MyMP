@@ -28,6 +28,8 @@ __attribute__((section("__versions"))) = {
 	{ 0x350a786c, "tty_flip_buffer_push" },
 	{ 0x52da18c1, "tty_insert_flip_string_fixed_flag" },
 	{ 0x25ec1b28, "strlen" },
+	{ 0x167e7f9d, "__get_user_1" },
+	{ 0xa1c76e0a, "_cond_resched" },
 	{ 0x27e1a049, "printk" },
 	{ 0xb4390f9a, "mcount" },
 };
@@ -38,4 +40,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "41CC67B73B263FCF0CDB4E3");
+MODULE_INFO(srcversion, "84E96F42DBE58FBB12E8573");

@@ -45,14 +45,12 @@ static void tty_dev_close(struct tty_struct *tty, struct file *flip) {
 static int tty_dev_write(struct tty_struct * tty, char *buf,
 		int count) {
 	if(count > 0 ){
-	//	tty_lock();
 		strcat(buf,"\n");
 		int total = tty_insert_flip_string(tty,buf,count+1);
 		if(total){
 			tty_flip_buffer_push(tty);
 			tty_wakeup(tty);
 		}
-	//	tty_unlock();
 	}
 	return count;
 }
@@ -62,11 +60,31 @@ static int sync_tty_dev_write(struct tty_struct *tty){
 	return 0; 
 }
 
+static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
+	int i ;
+	for(i = 0 ; i <NO_OF_DEV;++i){
+		struct tty_struct *my_tty = master_tty_driver->ttys[i];
+		//tty_dev_write(my_tty,buf,count);
+
+	}
+}
+
 static int tty_dev_ioctl(struct tty_struct *tty, struct file *flip,
 		unsigned int cmd, unsigned long param) {
 
 	int retval = -1;
-	printk("Command number %d\n",cmd);
+	printk(KERN_ALERT "Command number %d\n",cmd);
+	char *input_data = (char *) param;
+//	printk(KERN_ALERT "Length of the data %d\n",strlen(input_data));
+
+	char temp ;
+	get_user(temp,input_data);
+	int i ;
+	for(i = 0 ;  temp !=NULL; ++i, ++input_data){
+		get_user(temp,input_data);
+	}
+	printk(KERN_ALERT "The length is %d\n ",i);
+	printk(KERN_ALERT "The temp data %ld\n",param);
 	switch (cmd) {
 	
 		case IOCTL_BROADCAST_MSG :
