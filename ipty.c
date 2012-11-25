@@ -69,22 +69,24 @@ static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	}
 }
 
-static int tty_dev_ioctl(struct tty_struct *tty, struct file *flip,
+static int tty_dev_ioctl(struct tty_struct *tty,
 		unsigned int cmd, unsigned long param) {
 
 	int retval = -1;
-	printk(KERN_ALERT "Command number %d\n",cmd);
-	char *input_data = (char *) param;
+	char *temp = (char *) param;
 //	printk(KERN_ALERT "Length of the data %d\n",strlen(input_data));
 
-	char temp ;
-	get_user(temp,input_data);
+	char input ;
+	get_user(input,temp);
 	int i ;
-	for(i = 0 ;  temp !=NULL; ++i, ++input_data){
-		get_user(temp,input_data);
+	for(i = 0 ;  input !=NULL; ++i, ++temp){
+		get_user(input,temp);
 	}
-	printk(KERN_ALERT "The length is %d\n ",i);
-	printk(KERN_ALERT "The temp data %ld\n",param);
+
+	char *arg = (char *) kmalloc(sizeof(char) *i,GFP_KERNEL);
+	temp = (char *) param;
+	copy_from_user(arg,temp,i);
+	printk(KERN_ALERT "Data from user space %s\n", arg);
 	switch (cmd) {
 	
 		case IOCTL_BROADCAST_MSG :
