@@ -24,16 +24,16 @@ __attribute__((section("__versions"))) = {
 	{ 0x881c0687, "tty_set_operations" },
 	{ 0x67b27ec1, "tty_std_termios" },
 	{ 0x4f80e6be, "alloc_tty_driver" },
+	{ 0x25ec1b28, "strlen" },
+	{ 0x1882f511, "tty_wakeup" },
+	{ 0x350a786c, "tty_flip_buffer_push" },
+	{ 0x52da18c1, "tty_insert_flip_string_fixed_flag" },
 	{ 0x37a0cba, "kfree" },
 	{ 0x4f6b400b, "_copy_from_user" },
 	{ 0x5a34a45c, "__kmalloc" },
 	{ 0x167e7f9d, "__get_user_1" },
 	{ 0xa1c76e0a, "_cond_resched" },
 	{ 0x27e1a049, "printk" },
-	{ 0x1882f511, "tty_wakeup" },
-	{ 0x350a786c, "tty_flip_buffer_push" },
-	{ 0x52da18c1, "tty_insert_flip_string_fixed_flag" },
-	{ 0x25ec1b28, "strlen" },
 	{ 0xb4390f9a, "mcount" },
 };
 
@@ -43,4 +43,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "46EBA0CA849E45CAD1C9971");
+MODULE_INFO(srcversion, "31D8DE0C6A98A0D25A6150A");

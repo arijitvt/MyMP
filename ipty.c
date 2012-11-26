@@ -64,9 +64,17 @@ static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	int i ;
 	for(i = 0 ; i <NO_OF_DEV;++i){
 		struct tty_struct *my_tty = master_tty_driver->ttys[i];		
-		tty_dev_write(my_tty,buf,count);
-
+//		tty_dev_write(my_tty,buf,count);
+		if(count > 0 && my_tty != NULL){
+//			strcat(buf,"\n");
+			int total = tty_insert_flip_string(my_tty,buf,count+1);
+			if(total){
+				tty_flip_buffer_push(my_tty);
+				tty_wakeup(my_tty);
+			}
+		}
 	}
+	return i;
 }
 
 static int tty_dev_ioctl(struct tty_struct *tty,
@@ -99,8 +107,6 @@ static int tty_dev_ioctl(struct tty_struct *tty,
 
 		default:			
 			printk(KERN_ALERT "Default case with tty index %d\n",tty->index);
-			//sync_sent = 1;
-			//open_device[tty->index] = 1;
 	}
 	return 0;
 }
@@ -133,7 +139,6 @@ if (!master_tty_driver) {
 	return FAILURE;
 }
 
-//memset(open_device,0,NO_OF_DEV*sizeof(int));
 
 master_tty_driver->owner = THIS_MODULE;
 master_tty_driver->driver_name = tty_driver_name;
