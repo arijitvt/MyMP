@@ -23,7 +23,6 @@ int Hyb_Broadcast(int dest, const char *data, int count )
 		return -1;
 	}
 	char *ch = "Arijit";
-//	ioctl(fd,IOCTL_BROADCAST_MSG,ch);
 	ioctl(fd,IOCTL_BROADCAST_MSG,data);
 	close(fd);
 	return 0;
