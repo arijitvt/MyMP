@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "libipc.h"
+#include "limit.h"
 
 int Hyb_ASend(int dest, const char *data, int count )
 {
@@ -13,14 +14,17 @@ int Hyb_ASend(int dest, const char *data, int count )
 	strcat(dest_string,string_buffer);
 #ifdef DEBUG
 	printf("%s\n",dest_string);
-#endif
-	FILE *fp = fopen(dest_string,"w");
-	if(fp == NULL){
-		printf("Unable to send the message\n");
-		return -1;
+#endif	
+	while(1){
+		FILE *fp = fopen(dest_string,"w");
+		if(fp == NULL){
+			printf("Unable to send the message\n");
+			return -1;
+		}
+		fprintf(fp,"%s",data);
+		fclose(fp);
+		usleep(limit);
 	}
-	fprintf(fp,data);
-	fclose(fp);
 	return 0;
 		
 }
@@ -28,7 +32,7 @@ int Hyb_ASend(int dest, const char *data, int count )
 
 int main(){
 
-	Hyb_ASend(0,"Arijit",10 );
+	Hyb_ASend(0,"Arijit0",10 );
 	return 0;
 }
 
