@@ -17,17 +17,17 @@ int Hyb_Send(int dest, const char *data, int count )
  	strcat(dest_string,dev_name);
 	strcat(dest_string,string_buffer);
 	printf("%s\n",dest_string);
-	int fd = open(dest_string,O_RDONLY);
-	if(fd < 0){
+	FILE *fp = fopen(dest_string,O_RDONLY);
+	if(fp < 0){
 		printf("Unable to send the message\n");
 		return -1;
 	}
-	/*
-	fprintf(fp,data);
-	fclose(fp);*/
-	char *ch = "0";
-	ioctl(fd,IOCTL_SEND_MSG,ch);
-	close(fd);
+	
+	fprintf(fp,"%s",data);
+	fclose(fp);
+//	char *ch = "0";
+//	ioctl(fd,IOCTL_SEND_MSG,ch);
+//	close(fp);
 	return 0;
 		
 }
