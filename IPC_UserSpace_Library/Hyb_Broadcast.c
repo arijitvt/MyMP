@@ -8,30 +8,25 @@
 #include "libipc.h"
 #include "../ipty.h"
 
-int Hyb_Broadcast(int dest, const char *data, int count )
+int Hyb_Broadcast(const char *data, int count )
 {
 	char string_buffer[10];
 	sprintf(string_buffer,"%d",dest);
-	const char *dev_name =  "/dev/ipty";
-	char *dest_string = (char *)malloc(strlen(dev_name)+strlen(string_buffer));
- 	strcat(dest_string,dev_name);
-	strcat(dest_string,string_buffer);
-	printf("%s\n",dest_string);
-	int fd = open(dest_string,O_RDONLY);
+	const char *dev_name =  "/dev/ipty0";
+	int fd = open(dev_name,O_RDONLY);
 	if(fd < 0){
 		printf("Unable to send the message\n");
 		return -1;
 	}
-	char *ch = "Arijit";
 	ioctl(fd,IOCTL_BROADCAST_MSG,data);
 	close(fd);
 	return 0;
 }
 
-
+/*
 int main(){
 
 	Hyb_Broadcast(0,"Arijit",10 );
 	return 0;
 }
-
+*/
