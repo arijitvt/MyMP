@@ -10,8 +10,6 @@
 
 int Hyb_Broadcast(const char *data, int count )
 {
-	char string_buffer[10];
-	sprintf(string_buffer,"%d",dest);
 	const char *dev_name =  "/dev/ipty0";
 	int fd = open(dev_name,O_RDONLY);
 	if(fd < 0){
