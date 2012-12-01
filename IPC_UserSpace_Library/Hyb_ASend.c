@@ -29,10 +29,10 @@ int Hyb_ASend(int dest, const char *data, int count )
 		
 }
 
-
+/*
 int main(){
 
 	Hyb_ASend(0,"Arijit0",10 );
 	return 0;
 }
-
+*/
