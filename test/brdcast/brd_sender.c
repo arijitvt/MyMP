@@ -7,8 +7,17 @@
 
 int main(){
 
-	char *data = "This is the broadcasting message";	
-	int dataLength = strlen(data);
- 	Hyb_Broadcast(data,dataLength);
+	char data[100];
+	int dataLength = 1;
+	while(dataLength != 0){
+		printf("Enter the message: ");
+		scanf("%s",data);
+		int dataLength = strlen(data);
+		if(dataLength == 0){
+			printf("Can not send blank data\n");
+			return;
+		}
+	 	Hyb_Broadcast(data,dataLength);
+	}	
 	return 0;
 }

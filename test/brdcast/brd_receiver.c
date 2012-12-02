@@ -8,17 +8,18 @@
 void receive(void *dev){
 	int *dev_id = (int *) dev;
 	char data_buffer[100];
-	while(1){		 
+//	while(1){		 
 		Hyb_Recv(*dev_id,data_buffer,100);
 		if(strcmp(data_buffer,"#") == 0){
 			printf("Escape symbol is received");
-			break;
+			return ;
+			//break;
 		}
 		if(strlen(data_buffer) != 0){	
 			printf("FROM THE DEVICE : %d\t%s\n",*dev_id,data_buffer);
 			memset(data_buffer,'0',100);
 		}
-	}
+//	}
 }
 
 int main(){
