@@ -15,12 +15,8 @@ void receive(){
 	dev_id = id;
 	++id;
 	pthread_mutex_unlock(&thread_mutex);
-	printf("ID is %d\n",dev_id);
 	char data_buffer[100];
-//	while(1){		
-	printf("Before the call \n"); 
 	Hyb_Recv(dev_id,data_buffer,100);
-	printf("After the call \n"); 
 	if(strcmp(data_buffer,"#") == 0){
 		printf("Escape symbol is received");
 		return ;
@@ -30,7 +26,6 @@ void receive(){
 		printf("FROM THE DEVICE : %d\t%s\n",dev_id,data_buffer);
 		memset(data_buffer,'0',100);
 	}
-//	}
 }
 
 int main(){

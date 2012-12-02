@@ -3,7 +3,7 @@ CC=gcc
 CFLAG=-c
 TFLAG=-pthread
 
-all: rcv 
+all: rcv send 
 
 send: $(LIB)/Hyb_Broadcast.o brd_sender.o
 	$(CC) $(LIB)/Hyb_Broadcast.o brd_sender.o -o send 
