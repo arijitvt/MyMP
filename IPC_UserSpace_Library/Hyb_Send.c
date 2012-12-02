@@ -22,8 +22,10 @@ int Hyb_Send(int dest, const char *data, int count )
 		printf("Unable to send the message\n");
 		return -1;
 	}
-	
-	fprintf(fp,"%s",data);
+	char *data_buf = (char *) malloc(strlen(data)+3);
+	strcpy(data_buf,data);
+	strcat(data_buf,"\n");
+	fprintf(fp,"%s",data_buf);
 	fclose(fp);
 	return 0;
 		

@@ -45,12 +45,16 @@ static void tty_dev_close(struct tty_struct *tty, struct file *flip) {
 static int tty_dev_write(struct tty_struct * tty, char *buf,
 		int count) {
 	if(count > 0 ){
-		strcat(buf,"\n");
-		int total = tty_insert_flip_string(tty,buf,count+1);
+		/*char *data = kmalloc(strlen(buf)+3,GFP_KERNEL);
+		memcpy(data,buf,strlen(buf));
+		strcat(data,"\n\0");
+		int total = tty_insert_flip_string(tty,data,count+3);*/
+		int total = tty_insert_flip_string(tty,buf,count);
 		if(total){
 			tty_flip_buffer_push(tty);
 			tty_wakeup(tty);
 		}
+	//	kfree(data);
 	}
 	return count;
 }
@@ -64,14 +68,17 @@ static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	int i ;
 	for(i = 0 ; i <NO_OF_DEV;++i){
 		struct tty_struct *my_tty = master_tty_driver->ttys[i];		
-//		tty_dev_write(my_tty,buf,count);
 		if(count > 0 && my_tty != NULL){
-//			strcat(buf,"\n");
-			int total = tty_insert_flip_string(my_tty,buf,count+1);
+			/*char *data = kmalloc(strlen(buf)+3,GFP_KERNEL);
+			memcpy(data,buf,strlen(buf));
+			strcat(data,"\n\0");
+			int total = tty_insert_flip_string(my_tty,data,count+3);*/
+			int total = tty_insert_flip_string(my_tty,buf,count);
 			if(total){
 				tty_flip_buffer_push(my_tty);
 				tty_wakeup(my_tty);
 			}
+			//kfree(data);
 		}
 	}
 	return i;

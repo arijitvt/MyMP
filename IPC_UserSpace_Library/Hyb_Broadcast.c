@@ -16,7 +16,10 @@ int Hyb_Broadcast(const char *data, int count )
 		printf("Unable to send the message\n");
 		return -1;
 	}
-	ioctl(fd,IOCTL_BROADCAST_MSG,data);
+	char *data_buf = (char *) malloc(strlen(data)+3);
+	strcpy(data_buf,data);
+	strcat(data_buf,"\n");
+	ioctl(fd,IOCTL_BROADCAST_MSG,data_buf);
 	close(fd);
 	return 0;
 }

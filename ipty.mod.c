@@ -24,7 +24,6 @@ __attribute__((section("__versions"))) = {
 	{ 0x881c0687, "tty_set_operations" },
 	{ 0x67b27ec1, "tty_std_termios" },
 	{ 0x4f80e6be, "alloc_tty_driver" },
-	{ 0x25ec1b28, "strlen" },
 	{ 0x1882f511, "tty_wakeup" },
 	{ 0x350a786c, "tty_flip_buffer_push" },
 	{ 0x52da18c1, "tty_insert_flip_string_fixed_flag" },
@@ -43,4 +42,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "31D8DE0C6A98A0D25A6150A");
+MODULE_INFO(srcversion, "1012A01310CCF30E2E533E9");

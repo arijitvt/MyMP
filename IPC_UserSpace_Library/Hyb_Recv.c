@@ -14,19 +14,30 @@ int Hyb_Recv(int dest,char *data, int count)
 #ifdef DEBUG
 	printf("%s\n",dest_string);
 #endif
-	//char data_buffer[256];
-	int len = 0 ;
-	FILE *fp = fopen(dest_string,"r");
-	if(fp == NULL){
-		printf("Unable to send the message\n");
-		return -1;
+	char data_buffer[300];
+	int len = 10 ;
+
+	while(1){
+		FILE *fp = fopen(dest_string,"r");
+		if(fp == NULL){
+			printf("Unable to send the message\n");
+			return -1;
+		}
+		fgets(data, 100 , fp);
+		printf("%s",data);
+/*		do{
+			fscanf(fp,"%s",data);
+			strcat(data_buffer,data);
+			printf("%s\n",data);
+		}while(data != NULL);
+		len = strlen(data_buffer);	
+		printf("data lenght : %d\n",len);
+		fclose(fp);
+		return 0;
+		if(len > 1)*/
+		break;
 	}
-	while(len == 0){
-		fgets(data, 256 , fp);
-		len = strlen(data);
-	}
-	fclose(fp);
-	return 0;
+	//return 0;
 		
 }
 
@@ -38,5 +49,5 @@ int main(){
 	printf("From the main the recv buffer is %s\n",recv_buffer);
 	return 0;
 }
-*/
 
+*/
