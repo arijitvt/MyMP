@@ -22,7 +22,7 @@ MODULE_LICENSE("GPL");
 
 /**************************************************/
 /*System Variables*/
-#define NO_OF_DEV 666666
+#define NO_OF_DEV 6
 #define MINOR_START_NUMBER 121
 const char *tty_driver_name = "IPC_tty";
 const char *tty_dev_name = "ipty";
