@@ -1,0 +1,8 @@
+#ifndef MCHANNEL_H
+#define MCHANNEL_H
+
+char *fifty_char_msg = "12345678901234567890123456789012345678901234567890\n";
+
+const int CHANNEL_COUNT = 4;
+
+#endif
