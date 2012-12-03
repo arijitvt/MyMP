@@ -2,7 +2,7 @@
 #define MCHANNEL_H
 
 
-#define NO_OF_THREADS 4
+#define NO_OF_THREADS 6
 
 char *fifty_char_msg = "12345678901234567890123456789012345678901234567890\n";
 const int CHANNEL_COUNT = 4;
