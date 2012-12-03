@@ -3,54 +3,48 @@
 #include<time.h>
 #include<unistd.h>
 #include<ipc/libipc.h>
-#include "../benchmark.h"
+#include<pthread.h>
+#include "mchannel.h"
 
-
-#define NO_OF_THREADS 4
 
 
 pthread_mutex_t thread_mutex;
 int id = 0 ;
 
-void receive(){
+void send(){
 	int dev_id = -1;
 	pthread_mutex_lock(&thread_mutex);
 	dev_id = id;
 	++id;
 	pthread_mutex_unlock(&thread_mutex);
-	char data_buffer = fifty_char_msg;
-	Hyb_Recv(dev_id,data_buffer,100);
-	if(strcmp(data_buffer,"#") == 0){
-		printf("Escape symbol is received");
-		return ;
-	}
-	if(strlen(data_buffer) != 0){	
-		printf("FROM THE DEVICE : %d\t%s\n",dev_id,data_buffer);
-		memset(data_buffer,'0',100);
-	}
+	
+	struct 	timespec starttime;
+	struct timespec endtime;
+
+	char *data_buffer = fifty_char_msg;
+	int dataLength= strlen(data_buffer);
+	printf("Data in the buffer %s with length %d\n",data_buffer,dataLength);
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&starttime);
+	Hyb_Send(dev_id,data_buffer,dataLength);
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&endtime);
+	printf("Time taken in nano secs %lu for message length %d\n",(endtime.tv_nsec-starttime.tv_nsec),dataLength);
 }
 
 
 int main(){
 	
-	struct 	timespec starttime;
-	struct timespec endtime;
-
-	char *data = hundred_char_msg;
-	int dataLength = -1;
-	if(strcmp(data, "#") ==0){
-		printf("Reached escape sequence\n");
-		return 1;
+	pthread_t threads[NO_OF_THREADS];
+	int i ;
+	void *status;
+	pthread_mutex_init(&thread_mutex,NULL);
+	for(i =0 ; i < NO_OF_THREADS; ++i){
+		pthread_create(&threads[i],NULL,(void*)send,NULL);
 	}
-	dataLength = strlen(data);
-	if(dataLength == 0){
-		printf("Can not send blank data\n");
-		return -1;
+	for(i =0 ; i < NO_OF_THREADS; ++i){
+		pthread_join(threads[i],&status);
 	}
-	clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&starttime);
-	Hyb_Broadcast(data,dataLength);
-	clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&endtime);
-	printf("Time taken in nano secs %lu for message length %d\n",(endtime.tv_nsec-starttime.tv_nsec),dataLength);
+	pthread_mutex_destroy(&thread_mutex);
+	
 
 	return 0;
 }

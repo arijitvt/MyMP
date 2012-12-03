@@ -2,8 +2,7 @@
 #include<string.h>
 #include<pthread.h>
 #include <ipc/libipc.h>
-
-#define NO_OF_THREADS 4
+#include"mchannel.h"
 
 
 pthread_mutex_t thread_mutex;
