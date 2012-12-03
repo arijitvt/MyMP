@@ -2,11 +2,11 @@ LIB=/usr/include/ipc
 CC=gcc
 CFLAG=-c
 TFLAG=-pthread
-
+LADD=-lrt
 all: rcv send 
 
 send: $(LIB)/Hyb_Broadcast.o brd_sender.o
-	$(CC) $(LIB)/Hyb_Broadcast.o brd_sender.o -o send 
+	$(CC) $(LIB)/Hyb_Broadcast.o brd_sender.o -o send $(LADD)
 
 brd_sender.o: brd_sender.c
 	$(CC) $(CFLAG) $(LIB)/Hyb_Broadcast.o brd_sender.c 
