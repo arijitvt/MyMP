@@ -23,11 +23,15 @@ void send(){
 
 	char *data_buffer = fifty_char_msg;
 	int dataLength= strlen(data_buffer);
-	printf("Data in the buffer %s with length %d\n",data_buffer,dataLength);
-	clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&starttime);
-	Hyb_Send(dev_id,data_buffer,dataLength);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&endtime);
-	printf("Time taken in nano secs %lu for message length %d\n",(endtime.tv_nsec-starttime.tv_nsec),dataLength);
+	if(dev_id == 0){
+		printf("Data in the buffer %s with length %d\n",data_buffer,dataLength);
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&starttime);
+		Hyb_Send(dev_id,data_buffer,dataLength);
+	   	 clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&endtime);
+		printf("Time taken in nano secs %lu for message length %d\n",(endtime.tv_nsec-starttime.tv_nsec),dataLength);
+	}else{
+		Hyb_Send(dev_id,data_buffer,dataLength);
+	}
 }
 
 

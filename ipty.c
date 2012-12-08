@@ -41,20 +41,18 @@ static int tty_dev_open(struct tty_struct *tty, struct file *flip) {
 static void tty_dev_close(struct tty_struct *tty, struct file *flip) {
 }
 
-
+/**
+* This function gets call when Hyb_Send function get called from the user-space.
+* Thus it delivers the data to destination tty device.
+*/
 static int tty_dev_write(struct tty_struct * tty, char *buf,
 		int count) {
 	if(count > 0 ){
-		/*char *data = kmalloc(strlen(buf)+3,GFP_KERNEL);
-		memcpy(data,buf,strlen(buf));
-		strcat(data,"\n\0");
-		int total = tty_insert_flip_string(tty,data,count+3);*/
 		int total = tty_insert_flip_string(tty,buf,count);
 		if(total){
 			tty_flip_buffer_push(tty);
 			tty_wakeup(tty);
 		}
-	//	kfree(data);
 	}
 	return count;
 }
@@ -64,21 +62,21 @@ static int sync_tty_dev_write(struct tty_struct *tty){
 	return 0; 
 }
 
+/**
+* This function gets called when the Hyb_Broadcast function is getting called. This is responsible to send the data to all the other
+* tty device nodes.
+*/
+
 static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	int i ;
 	for(i = 0 ; i <NO_OF_DEV;++i){
 		struct tty_struct *my_tty = master_tty_driver->ttys[i];		
 		if(count > 0 && my_tty != NULL){
-			/*char *data = kmalloc(strlen(buf)+3,GFP_KERNEL);
-			memcpy(data,buf,strlen(buf));
-			strcat(data,"\n\0");
-			int total = tty_insert_flip_string(my_tty,data,count+3);*/
 			int total = tty_insert_flip_string(my_tty,buf,count);
 			if(total){
 				tty_flip_buffer_push(my_tty);
 				tty_wakeup(my_tty);
 			}
-			//kfree(data);
 		}
 	}
 	return i;
