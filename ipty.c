@@ -81,7 +81,9 @@ static int tty_dev_broadcast(struct tty_struct *tty, char *buf, int count){
 	}
 	return i;
 }
-
+/**
+* This function manages the ioctl with the user space
+*/
 static int tty_dev_ioctl(struct tty_struct *tty,
 		unsigned int cmd, unsigned long param) {
 
